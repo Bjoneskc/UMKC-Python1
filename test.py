@@ -11,7 +11,7 @@ __author__ = 'bjones'
 #calculate total touch down point, number of touchdown * 7
 #same for the other numbers
 
-#future code - need to check for alpa characters so you don't get an error
+#future code - need to check for alpha characters so you don't get an error
 
 touchdowns_str = input("How many touch downs were scored! ")
 fieldgoals_str = input("How man field goals were scored! ")
