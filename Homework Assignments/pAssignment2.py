@@ -59,9 +59,25 @@ userTurn = True
 continueTurn = ""
 
 
+#The purpose of this function is to produce the die roll and return the random number to the application
+def die_roll(die_start, die_end):
+    die = random.randint(die_start, die_end)
+    return die
+
+
+# #The purpose of this function is to validate the input received from the user
+# def continue_turn(input_string):
+#     continue_value = input_string.lower()
+#     while continue_value != "r" or continue_value != "h":
+#         continue_value = input("You must select an (R) or (H) to continue. (R)oll Again or (H)old? ")
+#         continue_value += continue_value.lower()
+#     if continue_value == "r" or continue_value == "h":
+#         return continue_value
+
+
 while userScore <= 50 or computerScore <= 50:
 
-    print("Score ", "You : ", userScore, "AI : ", computerScore)
+    print("Score ", "You : ", userScore, "  AI : ", computerScore)
     print()
     print("Your turn. Hit enter to continue")
 
@@ -71,6 +87,7 @@ while userScore <= 50 or computerScore <= 50:
             if currentRoll == 1:
                 userRoundPot = 0
                 #display bust information
+                print("Die : ", currentRoll, " Pot : ", userScore, "Bust")
                 #change turn
                 userTurn = False
                 break
@@ -78,16 +95,31 @@ while userScore <= 50 or computerScore <= 50:
                 userRoundPot += currentRoll
                 userScore += currentRoll
                 #Display successful role information
-                continueTurn = input("(R)oll Again or (H)old? ")
-                continueTurn = continueTurn.lower()
-                continue
+                print("Die : ", currentRoll, " Pot : ", userScore, end=" ")
+                continueTurn = continue_turn(input("(R)oll Again or (H)old? "))
+                if continueTurn == "r":
+                    continue
+                else:
+                    break
+
         else:
             currentRoll = die_roll(1, 6)
+            if currentRoll == 1:
+                computerRoundPot = 0
+                #display bust information
+                print("Die: ", currentRoll, " Pot: ", computerScore, "Bust")
+                #change turn
+                userTurn = True
+                break
+            else:
+                computerRoundPot += currentRoll
+                computerScore += currentRoll
+                #Display successful role information
+                print("Die: ", currentRoll, " Pot: ", computerScore, end=" ")
+                if computerScore >= 50:
+                    break
 
     ##Need to figure out how to determine who is having a turn
     ##Issue with figurng this out.
 
-#The purpose of this function is to produce the die roll and return the random number to the application
-def die_roll(die_start, die_end):
-    die = random.randint(die_start, die_end)
-    return die
+
