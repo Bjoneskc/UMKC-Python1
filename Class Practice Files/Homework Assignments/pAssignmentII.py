@@ -67,15 +67,14 @@ dieRoll = random.randint(1, 6)
 
 while gameState == "Active":
     while userTurn == True and userScore <= 50:
-        while dieRoll != 1 and continueTurn == "r" and userScore <= 50:
+        while dieRoll != 1 and continueTurn == "r":
             userRoundPot += dieRoll
             userScore += dieRoll
             #Display successful role information
             print("User Die : ", dieRoll, " Pot : ", userRoundPot, " User Score : ", userScore, end=" ")
-            if userScore <= 50:
-                continueTurn = input("(R)oll Again or (H)old? ").lower()
-                if continueTurn == "r":
-                    dieRoll = random.randint(1, 6)
+            continueTurn = input("(R)oll Again or (H)old? ").lower()
+            if continueTurn == "r":
+                dieRoll = random.randint(1, 6)
         if dieRoll == 1:
             userRoundPot = 0
             userTurn = False
@@ -86,28 +85,11 @@ while gameState == "Active":
             userTurn = False
             print("\nSCORE You : ", userScore, "  AI : ", computerScore)
             input("\nUser held, it's the computer's turn.  Hit enter to continue.")
-        elif continueTurn != "r" and continueTurn != "h":
-            continueTurn = input("(R)oll Again or (H)old? ").lower
-    if userScore >= 50 and continueTurn != "h":
-        print("\nCongratulations, you won")
-        playAgain = input("\nDo you want to play again? (Y/N) ").lower()
-        if playAgain == "y":
-            gameState = "Active"
-            userScore = 0
-            computerScore = 0
-            userRoundPot = 0
-            computerRoundPot = 0
-            currentRole = 0
-            userTurn = False
-            continueTurn = "r"
         else:
-            gameState = "Inactive"
-            print("Thank You for playing")
-
+            continueTurn = input("(R)oll Again or (H)old? ").lower
     while not userTurn and computerScore <= 50:
         dieRoll = random.randint(1, 6)
-        continueTurn = "r"
-        while dieRoll != 1 and computerRoundPot <= 20 and computerScore <= 50:
+        while dieRoll != 1 and computerRoundPot <= 20:
             computerRoundPot += dieRoll
             computerScore += dieRoll
             #Display successful role information
@@ -116,28 +98,11 @@ while gameState == "Active":
         if dieRoll == 1:
             computerRoundPot = 0
             userTurn = True
+            continueTurn = "r"
             print("\nComputer Die 1 rolled, Computer scored a bust, switching back to player's turn")
-            print("\nComputer Die : ", dieRoll, " Computer Round Pot Set To: 0 Bust\n")
+            print("\nComputer Die : ", dieRoll, " Computer Round Pot Set To: 0 Bust")
             #This dieRoll is for the user since the 1 roll exits from the computer section
             #and the user does not get a chance to roll before the logic
             dieRoll = random.randint(1, 6)
         elif computerRoundPot >= 20:
-            userTurn = True
-            computerRoundPot = 0
             break
-        if computerScore >= 50:
-            print("Sorry, the computer won")
-            playAgain = input("Do you want to play again? (Y/N) ").lower()
-            if playAgain == "y":
-                gameState = "Active"
-                userScore = 0
-                computerScore = 0
-                userRoundPot = 0
-                computerRoundPot = 0
-                currentRoll = 0
-                continueTurn = "r"
-                userTurn = True
-            else:
-                gameState = "Inactive"
-                print("Thanks for playing")
-
