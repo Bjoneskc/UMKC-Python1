@@ -46,6 +46,9 @@
 ##    and the Pot. I don't really gamble but it seems that I would want to know what my score is
 ##    before I decide if I want to roll again. I only find out by selecting h as an option which makes
 ##    me forfeit a turn.
+##
+##    I put a lot of additional comments into the code as output for the game.  I found it hard to read and keep
+##    track of the game without adding additional  information.
 ##############################################################
 #import needed modules
 import random
@@ -65,8 +68,10 @@ print("\nSCORE You : ", userScore, "  AI : ", computerScore, "\n")
 input("Your turn. Hit enter to continue: ")
 dieRoll = random.randint(1, 6)
 
+# gameState was added to assist with allowing the game to be restarted
 while gameState == "Active":
-    while userTurn == True and userScore <= 50:
+    #This while section processes use information
+    while userTurn and userScore <= 50:
         while dieRoll != 1 and continueTurn == "r" and userScore <= 50:
             userRoundPot += dieRoll
             userScore += dieRoll
@@ -74,24 +79,25 @@ while gameState == "Active":
             print("User Die : ", dieRoll, " Pot : ", userRoundPot, " User Score : ", userScore, end=" ")
             if userScore <= 50:
                 continueTurn = input("(R)oll Again or (H)old? ").lower()
-                if continueTurn == "r":
-                    dieRoll = random.randint(1, 6)
+                dieRoll = random.randint(1, 6)
         if dieRoll == 1:
             userRoundPot = 0
             userTurn = False
             print("\nUser Die 1 rolled, Switching to computer's turn \n")
             print("User Die : ", dieRoll, " User Round Pot Set To : 0 , User scored a Bust\n")
             dieRoll = 0
-        if continueTurn == "h":
+        elif continueTurn == "h":
             userTurn = False
             print("\nSCORE You : ", userScore, "  AI : ", computerScore)
             input("\nUser held, it's the computer's turn.  Hit enter to continue.")
-        elif continueTurn != "r" and continueTurn != "h":
-            continueTurn = input("(R)oll Again or (H)old? ").lower
+        elif (continueTurn != "h" or continueTurn != "r") and userScore <= 50:
+            continueTurn = input("\nInvalid Input: (R)oll Again or (H)old? ").lower()
+    #This section processes the user winning the game,
+    # and provides the ability to restart if the user want to start again
     if userScore >= 50 and continueTurn != "h":
-        print("\nCongratulations, you won")
+        print("\nCongratulations, the user won")
         playAgain = input("\nDo you want to play again? (Y/N) ").lower()
-        if playAgain == "y":
+        if playAgain == "y" or playAgain == "yes":
             gameState = "Active"
             userScore = 0
             computerScore = 0
@@ -100,10 +106,13 @@ while gameState == "Active":
             currentRole = 0
             userTurn = False
             continueTurn = "r"
-        else:
+        elif playAgain == "n" or playAgain == "no":
+            userScore = 0
             gameState = "Inactive"
             print("Thank You for playing")
-
+        else:
+            continueTurn = input("Invalid Input: (Y)es or (N)o ").lower()
+    #This section processes computer information
     while not userTurn and computerScore <= 50:
         dieRoll = random.randint(1, 6)
         continueTurn = "r"
@@ -125,10 +134,12 @@ while gameState == "Active":
             userTurn = True
             computerRoundPot = 0
             break
+        #This section processes the computer winning the game,
+        # and provides the ability to restart if the user want to start again
         if computerScore >= 50:
             print("Sorry, the computer won")
             playAgain = input("Do you want to play again? (Y/N) ").lower()
-            if playAgain == "y":
+            if playAgain == "y" or playAgain == "yes":
                 gameState = "Active"
                 userScore = 0
                 computerScore = 0
@@ -137,7 +148,9 @@ while gameState == "Active":
                 currentRoll = 0
                 continueTurn = "r"
                 userTurn = True
-            else:
+            elif playAgain == "n" or playAgain == "no":
                 gameState = "Inactive"
-                print("Thanks for playing")
-
+                computerScore = 0
+                print("Thank You for playing")
+            else:
+                continueTurn = input("Invalid Input: (Y)es or (N)o ").lower()
