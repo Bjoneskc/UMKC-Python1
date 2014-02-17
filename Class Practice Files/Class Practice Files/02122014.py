@@ -11,6 +11,9 @@ while still_playing:
     while UserPot_int <= 0:
         UserPot_int = int(input("How much do you want in your pot: "))
         if UserPot_int <= 0:
+
+
+
             print("You must give an amount greater than 0: ")
 
 #This section allows the game to start once user input is valid
@@ -23,8 +26,12 @@ while still_playing:
                 print("Give wager amount greater than zero or less: ")
 
 #Roll Dice both 1 and 2
-        die1 = random.randint(1, 6)
+
+
         die2 = random.randint(1, 6)
+
+
+
 
         #print the results of the die roll
         print("Die1 : ", die1, "Die2 : ", die2)
